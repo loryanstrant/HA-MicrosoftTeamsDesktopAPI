@@ -14,13 +14,15 @@
   "author": "loryanstrant",
   "license": "MIT",
   "dependencies": {
-    "electron": "^39.2.7",
-    "electron-builder": "^26.4.0",
     "electron-store": "^11.0.2",
     "mqtt": "^5.14.1",
     "node-machine-id": "^1.1.12",
     "ws": "^8.19.0"
   },
+  "devDependencies": {
+    "electron": "^39.2.7",
+    "electron-builder": "^26.4.0"
+  }
   "build": {
     "appId": "com.loryanstrant.teams2ha",
     "productName": "Teams2HA",
