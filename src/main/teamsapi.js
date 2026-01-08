@@ -13,6 +13,22 @@ class TeamsAPIClient extends EventEmitter {
     this.maxReconnectAttempts = 10;
   }
 
+  buildWebSocketUrl(includeToken = false) {
+    const params = new URLSearchParams({
+      'protocol-version': '2.0.0',
+      'manufacturer': 'Teams2HA',
+      'device': 'Desktop',
+      'app': 'Teams2HA',
+      'app-version': '1.0.0'
+    });
+    
+    if (includeToken && this.token) {
+      params.set('token', this.token);
+    }
+    
+    return `ws://localhost:8124?${params.toString()}`;
+  }
+
   connect(token) {
     if (this.isConnecting) return;
     
@@ -20,7 +36,7 @@ class TeamsAPIClient extends EventEmitter {
     this.isConnecting = true;
     this.connectionAttempts++;
 
-    const wsUrl = `ws://localhost:8124?token=${token}&protocol-version=2.0.0&manufacturer=Teams2HA&device=Desktop&app=Teams2HA&app-version=1.0.0`;
+    const wsUrl = this.buildWebSocketUrl(true);
 
     console.log('Connecting to Teams API...');
     
@@ -99,7 +115,7 @@ class TeamsAPIClient extends EventEmitter {
 
   async requestPairing() {
     return new Promise((resolve, reject) => {
-      const pairingWs = new WebSocket('ws://localhost:8124?protocol-version=2.0.0&manufacturer=Teams2HA&device=Desktop&app=Teams2HA&app-version=1.0.0');
+      const pairingWs = new WebSocket(this.buildWebSocketUrl(false));
       
       pairingWs.on('open', () => {
         console.log('Pairing connection established');

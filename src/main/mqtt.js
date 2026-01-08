@@ -68,11 +68,29 @@ class MqttClient extends EventEmitter {
 
   async testConnection() {
     return new Promise((resolve, reject) => {
-      const testClient = mqtt.connect(`mqtt://${this.settings.mqttHost}:${this.settings.mqttPort || 1883}`, {
-        username: this.settings.mqttUsername,
-        password: this.settings.mqttPassword,
-        connectTimeout: 5000
-      });
+      const options = {
+        connectTimeout: 5000,
+        username: this.settings.mqttUsername || undefined,
+        password: this.settings.mqttPassword || undefined,
+      };
+
+      // Handle TLS/SSL
+      if (this.settings.mqttUseTls) {
+        options.protocol = 'mqtts';
+        options.rejectUnauthorized = !this.settings.mqttIgnoreCertErrors;
+      }
+
+      // Handle WebSocket
+      if (this.settings.mqttUseWebSocket) {
+        options.protocol = this.settings.mqttUseTls ? 'wss' : 'ws';
+      }
+
+      const protocol = options.protocol || 'mqtt';
+      const host = this.settings.mqttHost || 'localhost';
+      const port = this.settings.mqttPort || 1883;
+      const brokerUrl = `${protocol}://${host}:${port}`;
+
+      const testClient = mqtt.connect(brokerUrl, options);
 
       testClient.on('connect', () => {
         testClient.end();

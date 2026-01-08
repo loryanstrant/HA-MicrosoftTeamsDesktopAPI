@@ -1,6 +1,7 @@
 const { app, BrowserWindow, Tray, Menu, ipcMain, dialog } = require('electron');
 const path = require('path');
 const Store = require('electron-store');
+const { machineIdSync } = require('node-machine-id');
 const TeamsAPIClient = require('./teamsapi');
 const MqttClient = require('./mqtt');
 
@@ -9,9 +10,10 @@ process.on('uncaughtException', (error) => {
   console.error('Uncaught Exception:', error);
 });
 
-const store = new Store({
-  encryptionKey: 'teams2ha-secure-key'
-});
+// Generate encryption key based on machine ID for better security
+const deviceId = machineIdSync();
+const encryptionKey = `teams2ha-${deviceId.substring(0, 32)}`;
+const store = new Store({ encryptionKey });
 
 let mainWindow = null;
 let tray = null;
