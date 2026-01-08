@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Teams2HA Configuration",
+  "type": "object",
+  "properties": {
+    "settings": {
+      "type": "object",
+      "properties": {
+        "mqttHost": {
+          "type": "string",
+          "description": "MQTT broker hostname or IP address",
+          "examples": ["192.168.1.100", "mqtt.example.com"]
+        },
+        "mqttPort": {
+          "type": "integer",
+          "description": "MQTT broker port",
+          "default": 1883,
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "mqttUsername": {
+          "type": "string",
+          "description": "MQTT username"
+        },
+        "mqttPassword": {
+          "type": "string",
+          "description": "MQTT password (stored encrypted)"
+        },
+        "mqttUseTls": {
+          "type": "boolean",
+          "description": "Use TLS/SSL for MQTT connection",
+          "default": false
+        },
+        "mqttUseWebSocket": {
+          "type": "boolean",
+          "description": "Use WebSocket for MQTT connection",
+          "default": false
+        },
+        "mqttIgnoreCertErrors": {
+          "type": "boolean",
+          "description": "Ignore certificate errors (not recommended)",
+          "default": false
+        }
+      },
+      "required": ["mqttHost"]
+    },
+    "teamsToken": {
+      "type": "string",
+      "description": "Teams API token (obtained during pairing)"
+    }
+  }
+}

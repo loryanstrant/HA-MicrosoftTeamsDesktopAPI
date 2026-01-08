@@ -1,0 +1,58 @@
+{
+  "name": "ha-microsoftteamsdesktopapi",
+  "version": "1.0.0",
+  "description": "A desktop app that integrates between the Microsoft Teams desktop API and Home Assistant via MQTT",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win portable",
+    "build:win-installer": "electron-builder --win nsis",
+    "dist": "electron-builder --win portable --win nsis"
+  },
+  "keywords": ["teams", "home-assistant", "mqtt", "automation"],
+  "author": "loryanstrant",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^39.2.7",
+    "electron-builder": "^26.4.0",
+    "electron-store": "^11.0.2",
+    "mqtt": "^5.14.1",
+    "node-machine-id": "^1.1.12",
+    "ws": "^8.19.0"
+  },
+  "build": {
+    "appId": "com.loryanstrant.teams2ha",
+    "productName": "Teams2HA",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        },
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}-portable.${ext}"
+    }
+  }
+}

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teams2HA - Microsoft Teams to Home Assistant Bridge</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-content">
+        <h1>
+          <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M20.625 10.5h-8.25v8.25h8.25V10.5z"/>
+            <path d="M10.5 10.5h-8.25v8.25h8.25V10.5z"/>
+            <path d="M20.625 1.5h-8.25v8.25h8.25V1.5z"/>
+            <path d="M10.5 1.5h-8.25v8.25h8.25V1.5z"/>
+          </svg>
+          Teams2HA
+        </h1>
+        <div class="status-indicators">
+          <div class="status-badge" id="teamsStatus">
+            <span class="status-dot"></span>
+            <span class="status-text">Teams: Disconnected</span>
+          </div>
+          <div class="status-badge" id="mqttStatus">
+            <span class="status-dot"></span>
+            <span class="status-text">MQTT: Disconnected</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="tabs">
+        <button class="tab-button active" data-tab="settings">Settings</button>
+        <button class="tab-button" data-tab="teams">Teams</button>
+        <button class="tab-button" data-tab="entities">Entities</button>
+        <button class="tab-button" data-tab="about">About</button>
+      </div>
+
+      <div class="tab-content active" id="settings-tab">
+        <div class="card">
+          <h2>MQTT Configuration</h2>
+          <form id="mqttForm">
+            <div class="form-group">
+              <label for="mqttHost">MQTT Broker Host</label>
+              <input type="text" id="mqttHost" placeholder="192.168.1.100" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="mqttPort">Port</label>
+              <input type="number" id="mqttPort" placeholder="1883" value="1883" required>
+            </div>
+
+            <div class="form-group">
+              <label for="mqttUsername">Username</label>
+              <input type="text" id="mqttUsername" placeholder="homeassistant">
+            </div>
+
+            <div class="form-group">
+              <label for="mqttPassword">Password</label>
+              <input type="password" id="mqttPassword" placeholder="••••••••">
+            </div>
+
+            <div class="form-group checkbox">
+              <input type="checkbox" id="mqttUseTls">
+              <label for="mqttUseTls">Use TLS/SSL</label>
+            </div>
+
+            <div class="form-group checkbox">
+              <input type="checkbox" id="mqttUseWebSocket">
+              <label for="mqttUseWebSocket">Use WebSocket</label>
+            </div>
+
+            <div class="form-group checkbox">
+              <input type="checkbox" id="mqttIgnoreCertErrors">
+              <label for="mqttIgnoreCertErrors">Ignore Certificate Errors (not recommended)</label>
+            </div>
+
+            <div class="button-group">
+              <button type="button" class="btn btn-secondary" id="testMqttBtn">Test Connection</button>
+              <button type="submit" class="btn btn-primary">Save Settings</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="tab-content" id="teams-tab">
+        <div class="card">
+          <h2>Microsoft Teams Pairing</h2>
+          <p>To use this application, you need to pair it with Microsoft Teams.</p>
+          
+          <div class="info-box">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z"/>
+            </svg>
+            <div>
+              <strong>Before pairing:</strong>
+              <ul>
+                <li>Make sure Microsoft Teams is running</li>
+                <li>Enable the API in Teams: Settings → Privacy → Manage API → Enable</li>
+                <li>Start a test meeting (use "Meet Now" feature)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div id="pairingStatus" class="status-message"></div>
+
+          <button class="btn btn-primary" id="pairTeamsBtn">Pair with Teams</button>
+        </div>
+
+        <div class="card">
+          <h2>Current Meeting Status</h2>
+          <div id="meetingStatus" class="meeting-status">
+            <div class="status-grid">
+              <div class="status-item">
+                <span class="status-label">In Meeting:</span>
+                <span class="status-value" id="inMeeting">No</span>
+              </div>
+              <div class="status-item">
+                <span class="status-label">Camera:</span>
+                <span class="status-value" id="cameraOn">Off</span>
+              </div>
+              <div class="status-item">
+                <span class="status-label">Microphone:</span>
+                <span class="status-value" id="micMuted">Muted</span>
+              </div>
+              <div class="status-item">
+                <span class="status-label">Hand Raised:</span>
+                <span class="status-value" id="handRaised">No</span>
+              </div>
+              <div class="status-item">
+                <span class="status-label">Background:</span>
+                <span class="status-value" id="bgBlurred">Normal</span>
+              </div>
+              <div class="status-item">
+                <span class="status-label">Recording:</span>
+                <span class="status-value" id="recording">Off</span>
+              </div>
+              <div class="status-item">
+                <span class="status-label">Screen Share:</span>
+                <span class="status-value" id="screenShare">Off</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="entities-tab">
+        <div class="card">
+          <h2>Home Assistant Entities</h2>
+          <p>The following entities will be created in your Home Assistant instance:</p>
+          
+          <div class="entities-list" id="entitiesList">
+            <div class="entity-item">
+              <code>sensor.teams_availability</code>
+              <button class="btn-copy" data-entity="sensor.teams_availability">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="about-tab">
+        <div class="card">
+          <h2>About Teams2HA</h2>
+          <p>Version 1.0.0</p>
+          <p>A desktop application that bridges Microsoft Teams with Home Assistant via MQTT.</p>
+          
+          <h3>Features</h3>
+          <ul>
+            <li>Real-time meeting status monitoring</li>
+            <li>Automatic MQTT discovery for Home Assistant</li>
+            <li>Secure credential storage</li>
+            <li>System tray integration</li>
+            <li>Portable installation (no admin rights required)</li>
+          </ul>
+
+          <h3>Requirements</h3>
+          <ul>
+            <li>Microsoft Teams desktop application</li>
+            <li>Home Assistant with MQTT broker</li>
+            <li>Teams API must be enabled in Teams settings</li>
+          </ul>
+
+          <h3>License</h3>
+          <p>MIT License</p>
+
+          <h3>Links</h3>
+          <div class="link-group">
+            <a href="https://github.com/loryanstrant/HA-MicrosoftTeamsDesktopAPI" class="btn btn-link">GitHub Repository</a>
+            <a href="https://github.com/loryanstrant/HA-MicrosoftTeamsDesktopAPI/issues" class="btn btn-link">Report Issue</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
