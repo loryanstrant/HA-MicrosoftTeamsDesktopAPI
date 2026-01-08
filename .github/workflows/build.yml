@@ -1,9 +1,10 @@
 name: Build and Release
 
 on:
+  release:
+    types: [published]
   push:
-    tags:
-      - 'v*'
+    tags: ['v*']
   workflow_dispatch:
 
 jobs:
