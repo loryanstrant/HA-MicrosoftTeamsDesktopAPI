@@ -1,6 +1,6 @@
 {
   "name": "ha-microsoftteamsdesktopapi",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A desktop app that integrates between the Microsoft Teams desktop API and Home Assistant via MQTT",
   "main": "src/main/main.js",
   "scripts": {
