@@ -10,7 +10,12 @@
     "build:win-installer": "electron-builder --win nsis",
     "dist": "electron-builder --win portable --win nsis"
   },
-  "keywords": ["teams", "home-assistant", "mqtt", "automation"],
+  "keywords": [
+    "teams",
+    "home-assistant",
+    "mqtt",
+    "automation"
+  ],
   "author": "loryanstrant",
   "license": "MIT",
   "dependencies": {
@@ -22,7 +27,7 @@
   "devDependencies": {
     "electron": "^39.2.7",
     "electron-builder": "^26.4.0"
-  }
+  },
   "build": {
     "appId": "com.loryanstrant.teams2ha",
     "productName": "Teams2HA",
@@ -37,11 +42,15 @@
       "target": [
         {
           "target": "portable",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         },
         {
           "target": "nsis",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "icon": "assets/icon.ico"
