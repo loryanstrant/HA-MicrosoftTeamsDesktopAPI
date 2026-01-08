@@ -69,16 +69,16 @@ Two installation options are available:
 
 The application will automatically create the following entities in Home Assistant:
 
-- `sensor.teams_availability` - Current availability status
-- `binary_sensor.teams_in_meeting` - Whether you're in a meeting
-- `binary_sensor.teams_camera_on` - Camera status
-- `binary_sensor.teams_microphone_muted` - Microphone status
-- `binary_sensor.teams_hand_raised` - Hand raised status
-- `binary_sensor.teams_background_blurred` - Background blur status
-- `binary_sensor.teams_recording` - Recording status
-- `binary_sensor.teams_screen_sharing` - Screen sharing status
+- `sensor.{hostname}_availability` - Current availability status
+- `binary_sensor.{hostname}_in_meeting` - Whether you're in a meeting
+- `binary_sensor.{hostname}_camera_on` - Camera status
+- `binary_sensor.{hostname}_microphone_muted` - Microphone status
+- `binary_sensor.{hostname}_hand_raised` - Hand raised status
+- `binary_sensor.{hostname}_background_blurred` - Background blur status
+- `binary_sensor.{hostname}_recording` - Recording status
+- `binary_sensor.{hostname}_screen_sharing` - Screen sharing status
 
-**Note:** The friendly names displayed in Home Assistant will include your computer's hostname (e.g., "DESKTOP-PC availability" instead of just "availability").
+**Note:** Replace `{hostname}` with your computer's hostname in lowercase with special characters replaced by underscores. For example, if your hostname is "DESKTOP-PC", the entities will be `sensor.desktop_pc_availability`, `binary_sensor.desktop_pc_in_meeting`, etc.
 
 ## System Tray
 

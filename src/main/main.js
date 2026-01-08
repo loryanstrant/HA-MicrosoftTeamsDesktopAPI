@@ -220,15 +220,18 @@ ipcMain.handle('test-mqtt', async (event, settings) => {
 });
 
 ipcMain.handle('get-entities', () => {
+  const hostname = require('os').hostname();
+  const sanitizedHostname = hostname.toLowerCase().replace(/[^a-z0-9]/g, '_');
+  
   return [
-    'sensor.teams_availability',
-    'binary_sensor.teams_in_meeting',
-    'binary_sensor.teams_camera_on',
-    'binary_sensor.teams_microphone_muted',
-    'binary_sensor.teams_hand_raised',
-    'binary_sensor.teams_background_blurred',
-    'binary_sensor.teams_recording',
-    'binary_sensor.teams_screen_sharing'
+    `sensor.${sanitizedHostname}_availability`,
+    `binary_sensor.${sanitizedHostname}_in_meeting`,
+    `binary_sensor.${sanitizedHostname}_camera_on`,
+    `binary_sensor.${sanitizedHostname}_microphone_muted`,
+    `binary_sensor.${sanitizedHostname}_hand_raised`,
+    `binary_sensor.${sanitizedHostname}_background_blurred`,
+    `binary_sensor.${sanitizedHostname}_recording`,
+    `binary_sensor.${sanitizedHostname}_screen_sharing`
   ];
 });
 

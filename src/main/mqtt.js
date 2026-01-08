@@ -110,6 +110,9 @@ class MqttClient extends EventEmitter {
     const hostname = require('os').hostname();
     const deviceName = `Teams ${hostname}`;
     const uniqueId = this.deviceId;
+    
+    // Create a sanitized hostname for entity IDs (lowercase, replace special chars with underscores)
+    const sanitizedHostname = hostname.toLowerCase().replace(/[^a-z0-9]/g, '_');
 
     const deviceConfig = {
       identifiers: [uniqueId],
@@ -182,6 +185,7 @@ class MqttClient extends EventEmitter {
       const discoveryTopic = `${this.baseTopic}/${sensor.type}/${uniqueId}_${sensor.name}/config`;
       const config = {
         name: `${hostname} ${sensor.name.replace(/_/g, ' ')}`,
+        object_id: `${sanitizedHostname}_${sensor.name}`,
         unique_id: `${uniqueId}_${sensor.name}`,
         state_topic: sensor.state_topic,
         icon: sensor.icon,

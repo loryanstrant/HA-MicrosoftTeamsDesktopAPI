@@ -6,6 +6,8 @@ This file contains example automations you can use with the Teams2HA entities in
 
 Add these automations to your Home Assistant `configuration.yaml` or in the automations UI.
 
+**Important:** The examples below use `binary_sensor.teams_in_meeting` as a placeholder. Replace `teams` with your actual hostname (lowercase, special characters replaced with underscores). For example, if your hostname is "DESKTOP-PC", use `binary_sensor.desktop_pc_in_meeting` instead.
+
 ## Example 1: Turn on "Do Not Disturb" Light When in Meeting
 
 ```yaml

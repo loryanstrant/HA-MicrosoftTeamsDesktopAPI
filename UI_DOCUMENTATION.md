@@ -73,17 +73,19 @@ List of all entities created in Home Assistant:
 - Copy button next to each entity
 - Clicking copy provides visual feedback ("Copied!")
 
-Entities listed:
+Entities listed (where `{hostname}` is your computer's hostname in lowercase):
 ```
-sensor.teams_availability                    [Copy]
-binary_sensor.teams_in_meeting              [Copy]
-binary_sensor.teams_camera_on               [Copy]
-binary_sensor.teams_microphone_muted        [Copy]
-binary_sensor.teams_hand_raised             [Copy]
-binary_sensor.teams_background_blurred      [Copy]
-binary_sensor.teams_recording               [Copy]
-binary_sensor.teams_screen_sharing          [Copy]
+sensor.{hostname}_availability                    [Copy]
+binary_sensor.{hostname}_in_meeting              [Copy]
+binary_sensor.{hostname}_camera_on               [Copy]
+binary_sensor.{hostname}_microphone_muted        [Copy]
+binary_sensor.{hostname}_hand_raised             [Copy]
+binary_sensor.{hostname}_background_blurred      [Copy]
+binary_sensor.{hostname}_recording               [Copy]
+binary_sensor.{hostname}_screen_sharing          [Copy]
 ```
+
+Example: If your hostname is "DESKTOP-PC", the entities will be `sensor.desktop_pc_availability`, etc.
 
 ---
 
