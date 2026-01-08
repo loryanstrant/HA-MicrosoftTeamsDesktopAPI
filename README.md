@@ -78,6 +78,8 @@ The application will automatically create the following entities in Home Assista
 - `binary_sensor.teams_recording` - Recording status
 - `binary_sensor.teams_screen_sharing` - Screen sharing status
 
+**Note:** The friendly names displayed in Home Assistant will include your computer's hostname (e.g., "DESKTOP-PC availability" instead of just "availability").
+
 ## System Tray
 
 The application minimizes to the system tray. Right-click the tray icon for options:

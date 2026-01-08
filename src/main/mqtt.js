@@ -181,7 +181,7 @@ class MqttClient extends EventEmitter {
     sensors.forEach(sensor => {
       const discoveryTopic = `${this.baseTopic}/${sensor.type}/${uniqueId}_${sensor.name}/config`;
       const config = {
-        name: `Teams ${sensor.name.replace(/_/g, ' ')}`,
+        name: `${hostname} ${sensor.name.replace(/_/g, ' ')}`,
         unique_id: `${uniqueId}_${sensor.name}`,
         state_topic: sensor.state_topic,
         icon: sensor.icon,
